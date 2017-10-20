@@ -9,5 +9,5 @@ class FileReader
 public:
 	FileReader();
 	~FileReader();
-	char* ReadFile(char* fileName);
+	static char** readFile(char* fileName);
 };

@@ -4,10 +4,10 @@
 
 class Ships
 {
-private:
-	Ship** ships;
-
 public:
 	Ships();
 	~Ships();
+
+private:
+	Ship** ships;
 };

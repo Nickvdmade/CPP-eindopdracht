@@ -3,24 +3,12 @@
 
 Ships::Ships()
 {
-	FileReader fileReader;
-	char* shipsInfo = fileReader.ReadFile("Files/schepen.csv");
-	char* shipInfo = new char[256];
-	char c = shipsInfo[0];
-	for (int i = 0; c != '\0'; i++)
+	char** shipsInfo = FileReader::readFile("Files/schepen.csv");
+	int size = shipsInfo[0][0];
+	ships = new Ship*[size];
+	for (int i = 1; i < size; i++)
 	{
-		c = shipsInfo[i];
-		if (c == '\0')
-			break;
-		int j;
-		for (j = 0; c != '\n'; j++)
-		{
-			c = shipsInfo[i];
-			shipInfo[j] = c;
-			i++;
-		}
-		i--;
-		shipInfo[j - 1] = '\0';
+		ships[i - 1] = new Ship(shipsInfo[i + 1]);
 	}
 }
 
