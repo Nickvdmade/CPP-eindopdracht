@@ -1,12 +1,16 @@
 #include <iostream>
 #include "RandomGenerator.h"
 #include "Ships.h"
+#include "Ports.h"
 
 using namespace std;
 
 void main()
 {
+
 	Ships* ships = new Ships();
+	Ports* ports = new Ports();
+	ports->Print();
 
 	//RandomGenerator randomGenerator;
 
@@ -28,5 +32,8 @@ void main()
 
 	getchar();
 
-	_CrtCheckMemory();
+	delete ships;
+	delete ports;
+
+	_CrtDumpMemoryLeaks();
 }

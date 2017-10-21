@@ -9,5 +9,5 @@ public:
 	~Ships();
 
 private:
-	Ship** ships;
+	Ship** ships_;
 };
