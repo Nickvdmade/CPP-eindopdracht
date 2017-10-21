@@ -1,6 +1,5 @@
 #include <iostream>
 #include "RandomGenerator.h"
-#include "FileReader.h"
 #include "Ships.h"
 
 using namespace std;

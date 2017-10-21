@@ -111,7 +111,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Eindopdracht.cpp" />
-    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Ships.cpp" />
@@ -123,7 +122,6 @@
     <None Include="Files\schepen.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileReader.h" />
     <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Ships.h" />

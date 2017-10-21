@@ -2,16 +2,16 @@
 
 class Ship
 {
+public:
+	Ship(char* type, int price, int loadSpace, int cannons, int hitPoints, bool small, int weight);
+	~Ship();
+
 private:
 	char* type_;
 	int price_;
 	int loadSpace_;
 	int cannons_;
 	int hitPoints_;
-	char* weight_;
-	bool small_;
-
-public:
-	Ship(char* shipInfo);
-	~Ship();
+	bool small_; 
+	int weight_;
 };
