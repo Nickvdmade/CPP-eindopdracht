@@ -3,12 +3,10 @@
 #include <random>
 #include <ctime>
 
-using namespace std;
-
 class RandomGenerator
 {
 private:
-	default_random_engine* generator;
+	std::default_random_engine* generator;
 
 public:
 	RandomGenerator();

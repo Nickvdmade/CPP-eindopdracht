@@ -2,6 +2,7 @@
 #include "RandomGenerator.h"
 #include "Ships.h"
 #include "Ports.h"
+#include "Location.h"
 
 using namespace std;
 
@@ -10,7 +11,8 @@ void main()
 
 	Ships* ships = new Ships();
 	Ports* ports = new Ports();
-	ports->Print();
+	Location* location = new Location(ports, "Roatan");
+	location->Print();
 
 	//RandomGenerator randomGenerator;
 
@@ -34,6 +36,7 @@ void main()
 
 	delete ships;
 	delete ports;
+	delete location;
 
 	_CrtDumpMemoryLeaks();
 }

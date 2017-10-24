@@ -6,7 +6,8 @@ class Ports
 public:
 	Ports();
 	~Ports();
-	void Print();
+	char** GetNames() const;
+	Port GetPort(char* name) const;
 
 private:
 	Port** ports_;

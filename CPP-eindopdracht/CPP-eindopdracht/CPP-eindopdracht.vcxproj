@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="Eindopdracht.cpp" />
     <ClCompile Include="Goods.cpp" />
+    <ClCompile Include="Location.cpp" />
     <ClCompile Include="Port.cpp" />
     <ClCompile Include="Ports.cpp" />
     <ClCompile Include="RandomGenerator.cpp" />
@@ -126,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Goods.h" />
+    <ClInclude Include="Location.h" />
     <ClInclude Include="Port.h" />
     <ClInclude Include="Ports.h" />
     <ClInclude Include="RandomGenerator.h" />

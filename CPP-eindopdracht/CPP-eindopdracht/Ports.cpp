@@ -1,4 +1,5 @@
 #include "Ports.h"
+#include <cstring>
 
 Ports::Ports()
 {
@@ -11,6 +12,23 @@ Ports::~Ports()
 	for (int i = 0; i < 24; i++)
 		delete ports_[i];
 	delete ports_;
+}
+
+char** Ports::GetNames() const
+{
+	char** names = new char*[24];
+	for (int i = 0; i < 24; i++)
+		names[i] = ports_[i]->GetName();
+	return names;
+}
+
+Port Ports::GetPort(char* name) const
+{
+	for (int i = 0; i < 24; i++)
+	{
+		if (strcmp(ports_[i]->GetName(), name) == 0)
+			return *ports_[i];
+	}
 }
 
 void Ports::AddPorts() const
@@ -1046,10 +1064,4 @@ void Ports::AddPorts() const
 	providenceDistance[22] = 6;
 	providenceDistance[23] = 0;
 	ports_[23] = new Port("Providence", providence, providenceDistance);
-}
-
-void Ports::Print()
-{
-	for (int i = 0; i < 24; i++)
-		ports_[i]->Print();
 }

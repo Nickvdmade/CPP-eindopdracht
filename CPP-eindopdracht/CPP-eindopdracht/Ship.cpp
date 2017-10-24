@@ -1,5 +1,4 @@
 #include "Ship.h"
-#include <cstdlib>
 
 Ship::Ship(char* type, int price, int loadSpace, int cannons, int hitPoints, bool small, int weight)
 {
