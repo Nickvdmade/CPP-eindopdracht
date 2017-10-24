@@ -10,6 +10,8 @@ Port::Port(char* name, Goods** goods, int* distance)
 
 Port::~Port()
 {
+	for (int i = 0; i < 15; i++)
+		delete goods_[i];
 	delete goods_;
 	delete distance_;
 }
