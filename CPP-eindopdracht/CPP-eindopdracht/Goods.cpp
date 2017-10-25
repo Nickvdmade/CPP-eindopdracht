@@ -46,9 +46,31 @@ Goods& Goods::operator=(const Goods& other)
 	return *this;
 }
 
-void Goods::Print()
+char* Goods::GetName() const
 {
-	std::cout << name_;
-	std::cout << "\tPrijs: " << price_;
-	std::cout << "\tAantal: " << amount_ << std::endl;
+	return name_;
+}
+
+int Goods::Buy(int amount, int money)
+{
+	if (amount_ >= amount && money >= (price_ * amount))
+	{
+		amount_ -= amount;
+		return money - price_ * amount;
+	}
+	return -1;
+}
+
+int Goods::Sell(int amount, int money)
+{
+	amount_ += amount;
+	return money + price_ * amount;
+}
+
+void Goods::Print() const
+{
+	std::cout << name_ << ":\t";
+	if (strlen(name_) < 7)
+		std::cout << "\t";
+	std::cout << price_ << "\t" << amount_ << std::endl;
 }

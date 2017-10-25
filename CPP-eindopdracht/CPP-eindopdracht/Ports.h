@@ -8,6 +8,7 @@ public:
 	~Ports();
 	char** GetNames() const;
 	Port GetPort(char* name) const;
+	int GetPosition(char* name) const;
 
 private:
 	Port** ports_;

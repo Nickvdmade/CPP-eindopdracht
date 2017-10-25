@@ -31,6 +31,15 @@ Port Ports::GetPort(char* name) const
 	}
 }
 
+int Ports::GetPosition(char* name) const
+{
+	for (int i = 0; i < 24; i++)
+	{
+		if (strcmp(ports_[i]->GetName(), name) == 0)
+			return i;
+	}
+}
+
 void Ports::AddPorts() const
 {
 	Goods** roatan = new Goods*[15];

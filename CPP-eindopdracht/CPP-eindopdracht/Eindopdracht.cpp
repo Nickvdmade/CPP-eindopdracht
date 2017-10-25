@@ -3,6 +3,7 @@
 #include "Ships.h"
 #include "Ports.h"
 #include "Location.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -11,8 +12,9 @@ void main()
 
 	Ships* ships = new Ships();
 	Ports* ports = new Ports();
-	Location* location = new Location(ports, "Roatan");
-	location->Print();
+	Location* startLocation = new Location(ports, ships, "Roatan");
+	Player* player = new Player(ships->GetShip(0), startLocation);
+	player->ShowInfo();
 
 	//RandomGenerator randomGenerator;
 
@@ -36,7 +38,8 @@ void main()
 
 	delete ships;
 	delete ports;
-	delete location;
+	delete startLocation;
+	delete player;
 
 	_CrtDumpMemoryLeaks();
 }

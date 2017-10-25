@@ -7,7 +7,12 @@ public:
 	Goods(Goods& other);
 	~Goods();
 	Goods& operator=(const Goods& other);
-	void Print();
+
+	char* GetName() const;
+	int Buy(int amount, int money);
+	int Sell(int amount, int money);
+
+	void Print() const;
 
 private:
 	char* name_;

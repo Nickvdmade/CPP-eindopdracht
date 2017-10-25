@@ -8,10 +8,12 @@ Port::Port(char* name, Goods** goods, int* distance)
 	distance_ = distance;
 }
 
-Port::Port(Port& other)
+Port::Port(const Port& other)
 {
 	name_ = other.name_;
-	distance_ = other.distance_;
+	distance_ = new int[24];
+	for (int i = 0; i < 24; i++)
+		distance_[i] = other.distance_[i];
 	goods_ = new Goods*[15];
 	for (int i = 0; i < 15; i++)
 	{
@@ -47,7 +49,9 @@ Port& Port::operator=(const Port& other)
 	if (this != &other)
 	{
 		name_ = other.name_;
-		distance_ = other.distance_;
+		distance_ = new int[24];
+		for (int i = 0; i < 24; i++)
+			distance_[i] = other.distance_[i];
 		goods_ = new Goods*[15];
 		for (int i = 0; i < 15; i++)
 		{
@@ -57,7 +61,31 @@ Port& Port::operator=(const Port& other)
 	return *this;
 }
 
-void Port::Print()
+int Port::BuyGoods(char* name, int amount, int money) const
+{
+	for (int i = 0; i < 15; i++)
+	{
+		if (strcmp(goods_[i]->GetName(), name) == 0)
+		{
+			return goods_[i]->Buy(amount, money);
+		}
+	}
+	return -1;
+}
+
+int Port::SellGoods(char* name, int amount, int money) const
+{
+	for (int i = 0; i < 15; i++)
+	{
+		if (strcmp(goods_[i]->GetName(), name) == 0)
+		{
+			return goods_[i]->Sell(amount, money);
+		}
+	}
+	return money;
+}
+
+void Port::Print() const
 {
 	for (int i = 0; i < 15; i++)
 	{

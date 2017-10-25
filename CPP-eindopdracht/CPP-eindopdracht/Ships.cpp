@@ -20,7 +20,12 @@ Ships::Ships()
 
 Ships::~Ships()
 {
-	for (int i = 0; i < sizeof(ships_); i++)
+	for (int i = 0; i < 13; i++)
 		delete ships_[i];
 	delete ships_;
+}
+
+Ship* Ships::GetShip(int number) const
+{
+	return ships_[number];
 }
