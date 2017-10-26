@@ -156,11 +156,21 @@ int Player::Repair() const
 	return ship_->GetHitPoints();
 }
 
-int Player::GetPiratesDefeated()
+int Player::GetPiratesDefeated() 
 {
 	int pirates = piratesDefeated_;
 	piratesDefeated_ = 0;
 	return pirates;
+}
+
+int Player::GetMoney() const
+{
+	return inventory_->GetMoney;
+}
+
+void Player::SetMoney(int money) const
+{
+	inventory_->SetMoney(money);
 }
 
 bool Player::Hit(int damage) const

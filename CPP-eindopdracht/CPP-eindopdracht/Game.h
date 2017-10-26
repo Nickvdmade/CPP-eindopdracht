@@ -20,17 +20,37 @@ private:
 	void InBattle();
 	void GameOver();
 	void GameWon();
+	void Cheat();
 
 	Ships* ships_;
 	Ports* ports_;
 	Location* startLocation_;
 	Player* player_;
 	
-	// 0: In Port
-	// 1: On Sea
-	// 2: In Battle
-	// 3: Game Over
-	// 4: Game Won
 	int state_;
+	int goal_;
+
+	enum state
+	{
+		inPort,
+		onSea,
+		inBattle,
+		gameOver,
+		gameWon,
+		theAnswer = 42,
+		exit = 99
+	};
+
+	enum inPort
+	{
+		buyGoods = 1,
+		sellGoods,
+		buyCannons,
+		sellCannons,
+		buyShip,
+		fixShip,
+		depart,
+		retire
+	};
 };
 

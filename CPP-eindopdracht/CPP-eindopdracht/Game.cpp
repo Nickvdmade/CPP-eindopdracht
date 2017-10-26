@@ -8,6 +8,7 @@ Game::Game()
 	startLocation_ = new Location(ports_, ships_, "Roatan");
 	player_ = new Player(ships_->GetShip(0), startLocation_);
 	state_ = 0;
+	goal_ = 1000000;
 }
 
 Game::~Game()
@@ -49,25 +50,27 @@ void Game::StartInfo() const
 
 void Game::GameLoop()
 {
-	int choice = 99;
-	while (choice != 99)
+	while (state_ != exit)
 	{
 		switch (state_)
 		{
-		case 0:
+		case inPort:
 			InPort();
 			break;
-		case 1:
+		case onSea:
 			OnSea();
 			break;
-		case 2:
+		case inBattle:
 			InBattle();
 			break;
-		case 3:
+		case gameOver:
 			GameOver();
 			break;
-		case 4:
+		case gameWon:
 			GameWon();
+			break;
+		case theAnswer:
+			Cheat();
 			break;
 		default:
 			break;
@@ -78,7 +81,8 @@ void Game::GameLoop()
 
 void Game::InPort()
 {
-	std::cout << "Options:\n";
+	system("cls");
+	std::cout << "In port, otions:\n";
 	std::cout << "\t1: Buy goods\n";
 	std::cout << "\t2: Sell goods\n";
 	std::cout << "\t3: Buy cannons\n";
@@ -93,44 +97,118 @@ void Game::InPort()
 		std::cout << "\nInput a valid number: ";
 		std::cin >> choice;
 		getchar();
+		if (choice == theAnswer)
+			Cheat();
 	}
 	switch(choice)
 	{
-	case 1:
+	case buyGoods:
 		player_->BuyGoods();
 		break;
-	case 2:
-		
+	case sellGoods:
 		break;
-	case 3:
+	case buyCannons:
 		break;
-	case 4:
+	case sellCannons:
 		break;
-	case 5:
+	case buyShip:
 		break;
-	case 6:
+	case fixShip:
 		break;
-	case 7:
+	case depart:
 		break;
-	case 8:
+	case retire:
+		std::cout << "Being a trader is hard work, you have chosen to take an early retirement.\n";
+		std::cout << "\nPress enter to continue\n";
+		getchar();
+		GameOver();
 		break;
 	default:
 		break;
 	}
+	if (player_->GetMoney() >= goal_)
+		state_ = gameWon;
 }
 
 void Game::OnSea()
 {
+	system("cls");
+	char* message = player_->Sail();
+	while (strcmp(message, "Arrived") != 0)
+	{
+		if (strcmp(message, "Pirates") == 0)
+		{
+			std::cout << "Ahoy captain, there be pirates!\nPrepare for battle...\n";
+			getchar();
+			state_ = inBattle;
+			return;
+		}
+		if(strcmp(message, "Storm, ship sunk") == 0)
+		{
+			std::cout << "Alas, poor sailor, a terrible storm has sunk your boat.\n";
+			getchar();
+			state_ = gameOver;
+			return;
+		}
+		message = player_->Sail();
+		std::cout << message << std::endl;
+	}
+	std::cout << "Land ho!\n";
+	player_->Arrive(ships_);
+	if (player_->GetMoney() >= goal_)
+	{
+		std::cout << "\nPress enter to continue.\n";
+		getchar();
+		state_ = gameWon;
+		return;
+	}
+	std::cout << "\nPress enter to visit the port.\n";
+	getchar();
+	state_ = inPort;
 }
 
 void Game::InBattle()
 {
+	system("cls");
+
 }
 
 void Game::GameOver()
 {
+	system("cls");
+	std::cout << "Your travels have come to an early end.\n";
+	int score = player_->GetMoney();
+	if (score < 1000)
+		std::cout << "With a fortune of " << score << " gold pieces, you are the worst trader in history, and your name will forever be synonymous with failure.\n";
+	else if (score < 100000)
+		std::cout << "With a fortune of " << score << " gold pieces, you were on your way to become a descent trader.\n";
+	else if (score < 500000)
+		std::cout << "With a fortune of " << score << " gold pieces, you were a wealthy trader known by many.\n";
+	else if (score < 900000)
+		std::cout << "With a fortune of " << score << " gold pieces, you were a cunning, world renowned trader.\n";
+	else
+		std::cout << "With a fortune of " << score << " gold pieces, you were a ruthless, and one of the most whealthiest traders in recent history.\n";
+	getchar();
+	state_ = exit;
 }
 
 void Game::GameWon()
 {
+	system("cls");
+	std::cout << "Well done traveller, you succeeded in your goal of collecting 1,000,000 gold pieces.\n";
+	std::cout << "You have become the wealthiest trader in history, feared by merchants and pirates alike.\n";
+	std::cout << "History shall forever remember you, and your grand fortune of " << player_->GetMoney() << " gold pieces.\n";
+	getchar();
+	state_ = exit;
+}
+
+void Game::Cheat()
+{
+	system("cls");
+	std::cout << "You have found the answer to the Ultimate Question of Life, the Universe, and Everything!\n";
+	std::cout << "To continue your frivolous quest for fame and fortune seems pointless now.\n\n";
+	std::cout << "Therefore you are granted 1,000,000 gold pieces and win the game.";
+	getchar();
+	player_->SetMoney(player_->GetMoney() + goal_);
+	state_ = gameWon;
 }

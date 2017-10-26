@@ -25,7 +25,9 @@ public:
 	void ShowLocations() const;
 	char* Depart(char* destination);
 	int Repair() const;
-	int GetPiratesDefeated();
+	int GetPiratesDefeated(); 
+	int GetMoney() const;
+	void SetMoney(int money) const;
 
 	// in Battle
 	bool Hit(int damage) const;
