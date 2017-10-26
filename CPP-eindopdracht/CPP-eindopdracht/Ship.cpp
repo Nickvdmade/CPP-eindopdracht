@@ -1,4 +1,5 @@
 #include "Ship.h"
+#include <iostream>
 
 Ship::Ship(Ship& other)
 {
@@ -42,6 +43,22 @@ Ship& Ship::operator=(const Ship& other)
 	return *this;
 }
 
+bool Ship::Hit(int damage)
+{
+	hitPoints_ -= damage;
+	if (hitPoints_ <= 0)
+		return true;
+	return false;
+}
+
+bool Ship::HitPercentage(int percentage)
+{
+	hitPoints_ -= (hitPoints_ * percentage) / 100;
+	if (hitPoints_ <= 0)
+		return true;
+	return false;
+}
+
 char* Ship::GetName() const
 {
 	return type_;
@@ -73,7 +90,47 @@ int Ship::GetCannonAmount() const
 	return cannons_;
 }
 
+int Ship::GetMaxHitPoints() const
+{
+	return maxHitPoints_;
+}
+
 int Ship::GetHitPoints() const
 {
 	return hitPoints_;
+}
+
+int Ship::GetWeight() const
+{
+	return weight_;
+}
+
+char* Ship::ShowWeight() const
+{
+	if (weight_ == 0)
+		return "light";
+	if (weight_ == 1)
+		return "medium";
+	return "heavy";
+}
+
+char* Ship::ShowSpecial() const
+{
+	if (small_)
+		return "small";
+	return "";
+}
+
+void Ship::ShowInfo() const
+{
+	std::cout << "\tName:\t\t" << type_ << std::endl;
+	std::cout << "\tLoadspace:\t" << loadSpace_ << std::endl;
+	std::cout << "\tMax hitpoints:\t" << maxHitPoints_ << std::endl;
+	std::cout << "\tWeight:\t\t" << ShowWeight() << std::endl;
+	std::cout << "\tSmall ship:\t" << small_ << std::endl;
+}
+
+void Ship::ShowHitPoints() const
+{
+	std::cout << "Current ship hitpoints: " << hitPoints_ << std::endl;
 }

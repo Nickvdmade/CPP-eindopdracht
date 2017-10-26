@@ -8,14 +8,26 @@ public:
 	~Ship();
 	Ship& operator=(const Ship& other);
 
+	bool Hit(int damage);
+	bool HitPercentage(int percentage);
+	int Repair(int money);
+
 	char* GetName() const;
 	int GetPrice() const;
-	int Repair(int money);
 	int GetLoadSpace() const;
 	int GetCannonAmount() const;
+	int GetMaxHitPoints() const;
 	int GetHitPoints() const;
+	int GetWeight() const;
+	char* ShowWeight() const;
+	char* ShowSpecial() const;
+
+	void ShowInfo() const;
+	void ShowHitPoints() const;
 
 private:
+	void ShowCannons() const;
+
 	char* type_;
 	int price_;
 	int loadSpace_;

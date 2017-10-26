@@ -1,5 +1,6 @@
 #include "Inventory.h"
 #include <cstring>
+#include <iostream>
 
 Inventory::Inventory(Ship* ship, Location* location)
 {
@@ -151,4 +152,46 @@ void Inventory::RemoveCannons(int type, int amount) const
 void Inventory::SetLoadSpace(int space)
 {
 	maxLoadSpace_ = space;
+}
+
+void Inventory::ShowInfo() const
+{
+	std::cout << "Current gold: " << money_ << " pieces" << std::endl;
+	std::cout << "Current inventory:" << std::endl;
+	for (int i = 0; i < 15; i++)
+	{
+		std::cout << "\t" << goodsNames_[i] << ":\t";
+		if (strlen(goodsNames_[i]) < 7)
+			std::cout << "\t";
+		std::cout << goodsAmount_[i] << std::endl;
+	}
+}
+
+void Inventory::ShowCannons() const
+{
+	std::cout << "\tMax cannons:\t" << maxCannons_ << std::endl;
+	std::cout << "\tInstalled cannons:\n";
+	for (int i = 0; i < maxCannons_; i++)
+	{
+		if (cannons_[i] == 0)
+			std::cout << "\t\tLight cannon\n";
+		if (cannons_[i] == 1)
+			std::cout << "\t\tMedium cannon\n";
+		if (cannons_[i] == 2)
+			std::cout << "\t\tHeavy cannon\n";
+	}
+}
+
+int Inventory::Shoot() const
+{
+	int damage = 0;
+	for (int i = 0; i < maxCannons_; i++)
+		damage += (cannons_[i] + 1) * 2;
+	return damage;
+}
+
+void Inventory::ClearInventory() const
+{
+	for (int i = 0; i < 15; i++)
+		goodsAmount_[i] = 0;
 }

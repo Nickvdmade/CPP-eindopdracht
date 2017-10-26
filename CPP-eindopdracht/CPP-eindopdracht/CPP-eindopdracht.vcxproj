@@ -111,9 +111,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Eindopdracht.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Goods.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Location.cpp" />
+    <ClCompile Include="PirateShip.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Port.cpp" />
     <ClCompile Include="Ports.cpp" />
@@ -128,9 +130,11 @@
     <None Include="Files\schepen.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Goods.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Location.h" />
+    <ClInclude Include="PirateShip.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Port.h" />
     <ClInclude Include="Ports.h" />

@@ -8,6 +8,8 @@ class Inventory
 public:
 	explicit Inventory(Ship* ship, Location* location);
 	~Inventory();
+
+	//in Port
 	bool SufficientLoadSpace(int space) const;
 	bool SufficientCannonSpace(int space) const;
 	bool IsLoadSpaceAvailable(int space) const;
@@ -21,6 +23,12 @@ public:
 	void AddCannons(int type, int amount) const;
 	void RemoveCannons(int type, int amount) const;
 	void SetLoadSpace(int space);
+	void ShowInfo() const;
+	void ShowCannons() const;
+
+	//in Battle
+	int Shoot() const;
+	void ClearInventory() const;
 
 private:
 	int money_;

@@ -33,6 +33,23 @@ Location::~Location()
 	delete cannonCost_;
 }
 
+void Location::Arrive(Ships* ships, char* location)
+{
+	name_ = location;
+	port_ = new Port(ports_->GetPort(name_));
+	RandomGenerator random;
+	shipAmount_ = random.GetRandomNumber(1, 13);
+	delete ships_;
+	ships_ = new Ship*[shipAmount_];
+	for (int i = 0; i < shipAmount_; i++)
+	{
+		ships_[i] = ships->GetShip(random.GetRandomNumber(0, 12));
+	}
+	cannons_[0] = random.GetRandomNumber(0, 5);
+	cannons_[1] = random.GetRandomNumber(0, 3);
+	cannons_[2] = random.GetRandomNumber(0, 2);
+}
+
 int Location::BuyGoods(char* name, int amount, int money) const
 {
 	return port_->BuyGoods(name, amount, money);
@@ -59,15 +76,10 @@ int Location::SellCannons(int type, int amount, int money) const
 	return money += cannonCost_[type] * amount;
 }
 
-Ship* Location::PreviewShip(char* name) const
+Ship* Location::PreviewShip(int choice) const
 {
-	for (int i = 0; i < shipAmount_; i++)
-	{
-		if (strcmp(ships_[i]->GetName(), name) == 0)
-		{
-			return ships_[i];
-		}
-	}
+	if (choice < shipAmount_)
+		return ships_[choice];
 	return nullptr;
 }
 
@@ -107,44 +119,56 @@ int Location::GetDistance(char* destination) const
 	return -1;
 }
 
+char* Location::GetName() const
+{
+	return name_;
+}
+
 void Location::ShowAvailableGoods() const
 {
-	std::cout << "GOODS\t\tPRICE\tAMOUNT" << std::endl;
+	std::cout << "NUMBER\tGOODS\t\tPRICE\tAMOUNT" << std::endl;
 	port_->Print();
 }
 
 void Location::ShowAvailableShips() const
 {
-	std::cout << "SHIP NAME\t\tPRICE" << std::endl;
+	std::cout << "NUMBER\tSHIP NAME\t\tPRICE\tLOADSPACE\tMAXCANNONS\tHITPOINTS\tWEIGHT\tSPECIALS" << std::endl;
 	for (int i = 0; i < shipAmount_; i++)
 	{
+		std::cout << i + 1 << "\t";
 		char* name = ships_[i]->GetName();
 		std::cout << name << ":\t";
 		if (strlen(name) < 15)
 			std::cout << "\t";
 		if (strlen(name) < 7)
 			std::cout << "\t";
-		std::cout << ships_[i]->GetPrice() << std::endl;
+		std::cout << ships_[i]->GetPrice() << "\t";
+		std::cout << ships_[i]->GetLoadSpace() << "\t\t";
+		std::cout << ships_[i]->GetCannonAmount() << "\t\t";
+		std::cout << ships_[i]->GetMaxHitPoints() << "\t\t";
+		std::cout << ships_[i]->ShowWeight() << "\t";
+		std::cout << ships_[i]->ShowSpecial() << std::endl;
 	}
 }
 
 void Location::ShowAvailableCannons() const
 {
-	std::cout << "CANNON TYPE\tPRICE\tAMOUNT" << std::endl;
-	std::cout << "light:\t\t" << cannonCost_[0] << "\t" << cannons_[0] << std::endl;
-	std::cout << "medium:\t\t" << cannonCost_[1] << "\t" << cannons_[1] << std::endl;
-	std::cout << "heavy:\t\t" << cannonCost_[2] << "\t" << cannons_[2] << std::endl;
+	std::cout << "NUMBER\tCANNON TYPE\tPRICE\tAMOUNT" << std::endl;
+	std::cout << "1\tlight:\t\t" << cannonCost_[0] << "\t" << cannons_[0] << std::endl;
+	std::cout << "2\tmedium:\t\t" << cannonCost_[1] << "\t" << cannons_[1] << std::endl;
+	std::cout << "3\theavy:\t\t" << cannonCost_[2] << "\t" << cannons_[2] << std::endl;
 }
 
 void Location::ShowLocations() const
 {
-	std::cout << "PORT\t\t\tDISTANCE" << std::endl;
+	std::cout << "NUMBER\tPORT\t\t\tDISTANCE" << std::endl;
 	int * distance = port_->GetDistances();
 	char** portNames = ports_->GetNames();
 	for (int i = 0; i < 24; i++)
 	{
 		if (distance[i] != 0)
 		{
+			std::cout << i + 1 << "\t";
 			std::cout << portNames[i] << ":\t\t";
 			if (strlen(portNames[i]) < 7)
 				std::cout << "\t";
