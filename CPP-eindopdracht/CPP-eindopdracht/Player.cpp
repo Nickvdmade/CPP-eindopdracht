@@ -48,6 +48,7 @@ void Player::Arrive(Ships* ships) const
 char* Player::BuyGoods() const
 {
 	location_->ShowAvailableGoods();
+	inventory_->ShowLoadSpace();
 	int choice = 0;
 	while (choice < 1 || choice > 15)
 	{
@@ -104,6 +105,7 @@ char* Player::BuyGoods() const
 char* Player::SellGoods() const
 {
 	inventory_->ShowGoods(location_);
+	inventory_->ShowLoadSpace();
 	int choice = 0;
 	while (choice < 1 || choice > 15)
 	{
@@ -337,6 +339,11 @@ void Player::SetMoney(int money) const
 	inventory_->SetMoney(money);
 }
 
+char * Player::GetLocation() const
+{
+	return destination_;
+}
+
 bool Player::Hit(int damage) const
 {
 	return ship_->Hit(damage);
@@ -477,7 +484,7 @@ char* Player::Sail()
 			message = "Storm, one mile further from destination, damage taken";
 		}
 		else if (direction <= 4)
-			message = "Storm, no movement, damage taken";
+			message = "Storm, no movement, damage taken\t";
 		else
 		{
 			distance_--;
@@ -530,6 +537,8 @@ char* Player::SellGoods(char* name, int amount) const
 
 char* Player::BuyCannons(int type, int amount) const
 {
+	if (ship_->isSmall() && type == 2)
+		return "A small ship can't carry heavy cannons";
 	if (inventory_->IsCannonSpaceAvailable(amount))
 	{
 		int newMoney = location_->BuyCannons(type, amount, inventory_->GetMoney());

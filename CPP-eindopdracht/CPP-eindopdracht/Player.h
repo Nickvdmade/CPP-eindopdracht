@@ -28,6 +28,7 @@ public:
 	int GetPiratesDefeated(); 
 	int GetMoney() const;
 	void SetMoney(int money) const;
+	char* GetLocation() const;
 
 	// in Battle
 	bool Hit(int damage) const;

@@ -6,7 +6,7 @@ Game::Game()
 	ships_ = new Ships();
 	ports_ = new Ports();
 	startLocation_ = new Location(ports_, ships_, "Roatan");
-	player_ = new Player(ships_->GetShip(12), startLocation_);
+	player_ = new Player(ships_->GetShip(0), startLocation_);
 	state_ = 0;
 	goal_ = 1000000;
 	inBattle_ = false;
@@ -84,7 +84,7 @@ void Game::GameLoop()
 void Game::InPort()
 {
 	system("cls");
-	std::cout << "In port, options:\n";
+	std::cout << "In port " << player_->GetLocation() << ", options:\n";
 	std::cout << "\t1: Buy goods\n";
 	std::cout << "\t2: Sell goods\n";
 	std::cout << "\t3: Buy cannons\n";

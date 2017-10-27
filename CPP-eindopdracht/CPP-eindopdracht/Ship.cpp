@@ -121,13 +121,22 @@ char* Ship::ShowSpecial() const
 	return "";
 }
 
+bool Ship::isSmall() const
+{
+	return small_;
+}
+
 void Ship::ShowInfo() const
 {
 	std::cout << "\tName:\t\t" << type_ << std::endl;
 	std::cout << "\tLoadspace:\t" << loadSpace_ << std::endl;
 	std::cout << "\tMax hitpoints:\t" << maxHitPoints_ << std::endl;
 	std::cout << "\tWeight:\t\t" << ShowWeight() << std::endl;
-	std::cout << "\tSmall ship:\t" << small_ << std::endl;
+	std::cout << "\tSmall ship:\t";
+	if (small_)
+		std::cout << "yes" << std::endl;
+	else
+		std::cout << "no" << std::endl;
 }
 
 void Ship::ShowHitPoints() const

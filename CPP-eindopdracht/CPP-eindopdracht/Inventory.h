@@ -18,8 +18,8 @@ public:
 	bool CanSellCannons(int type, int amount) const;
 	int GetMoney() const;
 	void SetMoney(int money);
-	void AddGoods(char* name, int amount) const;
-	void RemoveGoods(char* name, int amount) const;
+	void AddGoods(char* name, int amount);
+	void RemoveGoods(char* name, int amount);
 	void AddCannons(int type, int amount) const;
 	void RemoveCannons(int type, int amount) const;
 	void SetLoadSpace(int space);
@@ -27,6 +27,7 @@ public:
 	void ShowInventory() const;
 	void ShowCannons() const;
 	void ShowGoods(Location* location) const;
+	void ShowLoadSpace() const;
 
 	//in Battle
 	int Shoot() const;

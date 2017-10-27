@@ -12,12 +12,10 @@ Inventory::Inventory(Ship* ship, Location* location)
 	cannons_ = new int[50];
 	for (int i = 0; i < 50; i++)
 		cannons_[i] = -1;
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 		cannons_[i] = 0;
-	for (int i = 2; i < 4; i++)
+	for (int i = 2; i < 6; i++)
 		cannons_[i] = 1;
-	for (int i = 4; i < 50; i++)
-		cannons_[i] = 2;
 	goodsNames_ = new char*[15];
 	goodsAmount_ = new int[15];
 	for (int i = 0; i < 15; i++)
@@ -106,25 +104,27 @@ void Inventory::SetMoney(int money)
 	money_ = money;
 }
 
-void Inventory::AddGoods(char* name, int amount) const
+void Inventory::AddGoods(char* name, int amount)
 {
 	for(int i = 0; i < 15; i++)
 	{
 		if(strcmp(goodsNames_[i], name) == 0)
 		{
 			goodsAmount_[i] += amount;
+			usedLoadSpace_ += amount;
 			return;
 		}
 	}
 }
 
-void Inventory::RemoveGoods(char* name, int amount) const
+void Inventory::RemoveGoods(char* name, int amount)
 {
 	for (int i = 0; i < 15; i++)
 	{
 		if (strcmp(goodsNames_[i], name) == 0)
 		{
 			goodsAmount_[i] -= amount;
+			usedLoadSpace_ -= amount;
 			return;
 		}
 	}
@@ -212,6 +212,12 @@ void Inventory::ShowGoods(Location* location) const
 	}
 }
 
+void Inventory::ShowLoadSpace() const
+{
+	std::cout << "\nMax load space: " << maxLoadSpace_ << std::endl;
+	std::cout << "Used load space: " << usedLoadSpace_ << std::endl;
+}
+
 int Inventory::Shoot() const
 {
 	int damage = 0;
@@ -230,6 +236,7 @@ void Inventory::ClearInventory() const
 void Inventory::NewShip(Ship* ship)
 {
 	maxLoadSpace_ = ship->GetLoadSpace();
+
 	maxCannons_ = ship->GetCannonAmount();
 }
 

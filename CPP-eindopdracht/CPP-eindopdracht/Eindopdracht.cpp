@@ -8,7 +8,7 @@ void main()
 {
 	HWND hwnd = GetConsoleWindow();
 	if (hwnd != nullptr)
-		MoveWindow(hwnd, 0, 0, 800, 800, true);
+		MoveWindow(hwnd, 0, 0, 1000, 800, true);
 
 	Game* game = new Game();
 	game->StartGame();

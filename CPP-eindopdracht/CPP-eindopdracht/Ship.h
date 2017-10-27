@@ -21,6 +21,7 @@ public:
 	int GetWeight() const;
 	char* ShowWeight() const;
 	char* ShowSpecial() const;
+	bool isSmall() const;
 
 	void ShowInfo() const;
 	void ShowHitPoints() const;
