@@ -26,8 +26,6 @@ public:
 	void ShowHitPoints() const;
 
 private:
-	void ShowCannons() const;
-
 	char* type_;
 	int price_;
 	int loadSpace_;

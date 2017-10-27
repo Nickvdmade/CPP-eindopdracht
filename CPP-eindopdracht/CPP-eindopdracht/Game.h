@@ -17,6 +17,7 @@ private:
 	void GameLoop();
 	void InPort();
 	void OnSea();
+	void PrepareForBattle();
 	void InBattle();
 	void GameOver();
 	void GameWon();
@@ -26,9 +27,11 @@ private:
 	Ports* ports_;
 	Location* startLocation_;
 	Player* player_;
+	PirateShip* pirateShip_;
 	
 	int state_;
 	int goal_;
+	bool inBattle_;
 
 	enum state
 	{

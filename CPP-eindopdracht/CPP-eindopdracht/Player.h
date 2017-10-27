@@ -35,7 +35,10 @@ public:
 	void Surrender() const;
 	bool Flee(PirateShip* pirateShip) const;
 	int GetHitPoints() const;
+	void ShowHitPoints() const;
+	void ShowCannons() const;
 	void PirateDefeated();
+	int GetWeight() const;
 
 	//on Sea
 	char* Sail();

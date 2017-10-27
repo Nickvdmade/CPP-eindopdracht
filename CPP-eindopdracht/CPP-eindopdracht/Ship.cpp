@@ -132,5 +132,5 @@ void Ship::ShowInfo() const
 
 void Ship::ShowHitPoints() const
 {
-	std::cout << "Current ship hitpoints: " << hitPoints_ << std::endl;
+	std::cout << "Player ship hitpoints: " << hitPoints_ << std::endl;
 }

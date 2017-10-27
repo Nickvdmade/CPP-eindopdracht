@@ -47,7 +47,7 @@ void Player::Arrive(Ships* ships) const
 char* Player::BuyGoods() const
 {
 	location_->ShowAvailableGoods();
-
+	return "";
 }
 
 char* Player::BuyGoods(char* name, int amount) const
@@ -165,7 +165,7 @@ int Player::GetPiratesDefeated()
 
 int Player::GetMoney() const
 {
-	return inventory_->GetMoney;
+	return inventory_->GetMoney();
 }
 
 void Player::SetMoney(int money) const
@@ -197,39 +197,39 @@ bool Player::Flee(PirateShip* pirateShip) const
 	if (shipWeight == 0)
 	{
 		if (pirateWeight == 0)
-			if (chance >= 50)
+			if (chance <= 50)
 				return true;
 		if (pirateWeight == 1)
-			if (chance >= 60)
+			if (chance <= 60)
 				return true;
 		if (pirateWeight == 2)
-			if (chance >= 75)
+			if (chance <= 75)
 				return true;
 		return false;
 	}
 	if (shipWeight == 1)
 	{
 		if (pirateWeight == 0)
-			if (chance >= 30)
+			if (chance <= 30)
 				return true;
 		if (pirateWeight == 1)
-			if (chance >= 40)
+			if (chance <= 40)
 				return true;
 		if (pirateWeight == 2)
-			if (chance >= 55)
+			if (chance <= 55)
 				return true;
 		return false;
 	}
 	if (shipWeight == 2)
 	{
 		if (pirateWeight == 0)
-			if (chance >= 5)
+			if (chance <= 5)
 				return true;
 		if (pirateWeight == 1)
-			if (chance >= 15)
+			if (chance <= 15)
 				return true;
 		if (pirateWeight == 2)
-			if (chance >= 30)
+			if (chance <= 30)
 				return true;
 		return false;
 	}
@@ -241,9 +241,24 @@ int Player::GetHitPoints() const
 	return ship_->GetHitPoints();
 }
 
+void Player::ShowHitPoints() const
+{
+	ship_->ShowHitPoints();
+}
+
+void Player::ShowCannons() const
+{
+	inventory_->ShowCannons();
+}
+
 void Player::PirateDefeated()
 {
 	piratesDefeated_++;
+}
+
+int Player::GetWeight() const
+{
+	return ship_->GetWeight();
 }
 
 char* Player::Sail()

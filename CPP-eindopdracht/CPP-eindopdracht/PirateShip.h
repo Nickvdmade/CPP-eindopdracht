@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 class PirateShip
 {
@@ -10,6 +11,8 @@ public:
 	int Shoot() const;
 	int GetHitPoints() const;
 	int GetWeight() const;
+	void ShowCannons() const;
+	void ShowHitPoints() const;
 
 private:
 	int hitPoints_;
