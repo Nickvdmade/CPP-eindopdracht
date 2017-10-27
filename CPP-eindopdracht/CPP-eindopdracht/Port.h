@@ -10,6 +10,7 @@ public:
 	int* GetDistances() const;
 	char* GetName() const;
 	Goods* GetGoods(int number) const;
+	int* GetPrices() const;
 	Port& operator=(const Port& other);
 
 	int BuyGoods(char* name, int amount, int money) const;

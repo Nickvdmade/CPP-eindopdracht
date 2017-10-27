@@ -71,15 +71,21 @@ int PirateShip::GetWeight() const
 void PirateShip::ShowCannons() const
 {
 	std::cout << "\tInstalled cannons:\n";
+	int light = 0;
+	int medium = 0;
+	int heavy = 0;
 	for (int i = 0; i < cannonAmount_; i++)
 	{
 		if (cannons_[i] == 0)
-			std::cout << "\t\tLight cannon\n";
+			light++;
 		if (cannons_[i] == 1)
-			std::cout << "\t\tMedium cannon\n";
+			medium++;
 		if (cannons_[i] == 2)
-			std::cout << "\t\tHeavy cannon\n";
+			heavy++;
 	}
+	std::cout << "\t\tLight cannons:\t" << light << std::endl;
+	std::cout << "\t\tMedium cannons:\t" << medium << std::endl;
+	std::cout << "\t\tHeavy cannons:\t" << heavy << std::endl;
 }
 
 void PirateShip::ShowHitPoints() const

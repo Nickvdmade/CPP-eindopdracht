@@ -22,6 +22,8 @@ public:
 	char* GetGoodsName(int number) const;
 	int GetDistance(char* destination) const;
 	char* GetName() const;
+	int* GetPrices() const;
+	int GetLocation(char* name) const;
 	void ShowAvailableGoods() const;
 	void ShowAvailableShips() const;
 	void ShowAvailableCannons() const;

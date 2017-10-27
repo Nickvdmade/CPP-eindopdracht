@@ -24,13 +24,18 @@ public:
 	void RemoveCannons(int type, int amount) const;
 	void SetLoadSpace(int space);
 	void ShowInfo() const;
+	void ShowInventory() const;
 	void ShowCannons() const;
+	void ShowGoods(Location* location) const;
 
 	//in Battle
 	int Shoot() const;
 	void ClearInventory() const;
+	void NewShip(Ship* ship);
 
 private:
+	void OrderCannons() const;
+
 	int money_;
 	int maxLoadSpace_;
 	int usedLoadSpace_;

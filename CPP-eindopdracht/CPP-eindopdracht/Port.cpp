@@ -44,6 +44,14 @@ Goods* Port::GetGoods(int number) const
 	return goods_[number];
 }
 
+int* Port::GetPrices() const
+{
+	int* prices = new int[15];
+	for (int i = 0; i < 15; i++)
+		prices[i] = goods_[i]->GetPrice();
+	return prices;
+}
+
 Port& Port::operator=(const Port& other)
 {
 	if (this != &other)

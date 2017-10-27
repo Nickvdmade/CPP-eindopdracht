@@ -51,6 +51,11 @@ char* Goods::GetName() const
 	return name_;
 }
 
+int Goods::GetPrice() const
+{
+	return price_;
+}
+
 int Goods::Buy(int amount, int money)
 {
 	if (amount_ >= amount && money >= (price_ * amount))

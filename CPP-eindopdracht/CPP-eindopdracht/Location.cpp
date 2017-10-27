@@ -36,6 +36,7 @@ Location::~Location()
 void Location::Arrive(Ships* ships, char* location)
 {
 	name_ = location;
+	delete port_;
 	port_ = new Port(ports_->GetPort(name_));
 	RandomGenerator random;
 	shipAmount_ = random.GetRandomNumber(1, 13);
@@ -122,6 +123,16 @@ int Location::GetDistance(char* destination) const
 char* Location::GetName() const
 {
 	return name_;
+}
+
+int* Location::GetPrices() const
+{
+	return port_->GetPrices();
+}
+
+int Location::GetLocation(char* name) const
+{
+	return ports_->GetPosition(name);
 }
 
 void Location::ShowAvailableGoods() const

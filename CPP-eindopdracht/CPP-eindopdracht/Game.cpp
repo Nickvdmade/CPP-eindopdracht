@@ -78,14 +78,13 @@ void Game::GameLoop()
 		default:
 			break;
 		}
-		getchar();
 	}
 }
 
 void Game::InPort()
 {
 	system("cls");
-	std::cout << "In port, otions:\n";
+	std::cout << "In port, options:\n";
 	std::cout << "\t1: Buy goods\n";
 	std::cout << "\t2: Sell goods\n";
 	std::cout << "\t3: Buy cannons\n";
@@ -93,11 +92,13 @@ void Game::InPort()
 	std::cout << "\t5: Buy ship\n";
 	std::cout << "\t6: Fix ship\n";
 	std::cout << "\t7: Depart\n";
-	std::cout << "\t8: Retire\n";
+	std::cout << "\t8: Retire\n\n";
+	std::cout << "Current gold: " << player_->GetMoney() << " pieces.\n";
 	int choice = 0;
 	while(choice < 1 || choice > 8)
 	{
 		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
 		std::cin >> choice;
 		getchar();
 		if (choice == theAnswer)
@@ -106,22 +107,67 @@ void Game::InPort()
 			return;
 		}
 	}
+	char* result;
 	switch(choice)
 	{
 	case buyGoods:
-		player_->BuyGoods();
+		result = player_->BuyGoods();
+		if (strcmp(result, "succes") == 0)
+			std::cout << "The goods were transfered to your ship.\n";
+		else
+			std::cout << result << std::endl;
+		getchar();
 		break;
 	case sellGoods:
+		result = player_->SellGoods();
+		if (strcmp(result, "succes") == 0)
+			std::cout << "The goods were removed from your ship.\n";
+		else
+			std::cout << result << std::endl;
+		getchar();
 		break;
 	case buyCannons:
+		result = player_->BuyCannons();
+		if (strcmp(result, "succes") == 0)
+			std::cout << "The cannons were added to your arsenal.\n";
+		else
+			std::cout << result << std::endl;
+		getchar();
 		break;
 	case sellCannons:
+		result = player_->SellCannons();
+		if (strcmp(result, "succes") == 0)
+			std::cout << "The cannons were removed from your arsenal.\n";
+		else
+			std::cout << result << std::endl;
+		getchar();
 		break;
 	case buyShip:
+		result = player_->BuyShip();
+		if (strcmp(result, "succes") == 0)
+		{
+			std::cout << "You are now the proud owner of a new ship.\n";
+			std::cout << "Your cannons and goods were transfered to your new ship.\n";
+			player_->ShowShipInfo();
+		}
+		else
+			std::cout << result << std::endl;
+		getchar();
 		break;
 	case fixShip:
+		std::cout << "The local shipyard has repaired your ship up to " << player_->Repair() << " hitpoints.\n";
+		getchar();
 		break;
 	case depart:
+		result = player_->Depart();
+		if (strcmp(result, "succes") == 0)
+		{
+			std::cout << "Raise the anker and hoist the sail!!\n";
+			state_ = onSea;
+		}
+		else
+			std::cout << result << std::endl;
+		getchar();
 		break;
 	case retire:
 		std::cout << "Being a trader is hard work, you have chosen to take an early retirement.\n";
@@ -139,6 +185,7 @@ void Game::InPort()
 void Game::OnSea()
 {
 	system("cls");
+	std::cout << "While traversing the open sea...\n\n";
 	char* message = player_->Sail();
 	while (strcmp(message, "Arrived") != 0)
 	{
@@ -151,15 +198,16 @@ void Game::OnSea()
 		}
 		if(strcmp(message, "Storm, ship sunk") == 0)
 		{
-			std::cout << "Alas, poor sailor, a terrible storm has sunk your boat.\n";
+			std::cout << "Alas, poor sailor, a terrible storm has sunk your ship.\n";
 			getchar();
 			state_ = gameOver;
 			return;
 		}
+		std::cout << message;
 		message = player_->Sail();
-		std::cout << message << std::endl;
+		getchar();
 	}
-	std::cout << "Land ho!\n";
+	std::cout << "\nLand ho!\n";
 	player_->Arrive(ships_);
 	if (player_->GetMoney() >= goal_)
 	{
@@ -181,11 +229,12 @@ void Game::PrepareForBattle()
 		int pirateWeight = pirateShip_->GetWeight();
 		int playerWeight = player_->GetWeight();
 		if (playerWeight < pirateWeight)
-			std::cout << "Captain, the pirate ship is too big, we should flee!\n\n";
+			std::cout << "Captain, the pirate ship is too big, we should surrender!\n\n";
 		else if (playerWeight == pirateWeight)
 			std::cout << "Captain, the pirate ship is equal to ours, we can fight or flee!\n\n";
 		else
 			std::cout << "Captain, it's just a small pirate ship, we should fight!\n\n";
+		getchar();
 	}
 }
 
@@ -197,7 +246,7 @@ void Game::InBattle()
 	std::cout << std::endl;
 	pirateShip_->ShowHitPoints();
 	pirateShip_->ShowCannons();
-	std::cout << "\nIn battle, otions:\n";
+	std::cout << "\nIn battle, options:\n";
 	std::cout << "\t1: Fire!\n";
 	std::cout << "\t2: Flee!\n";
 	std::cout << "\t3: Surrender!\n";
@@ -223,15 +272,19 @@ void Game::InBattle()
 			std::cout << "\nPress enter to continue on your journey.\n";
 			getchar();
 			state_ = onSea;
+			delete pirateShip_;
+			pirateShip_ = nullptr;
 			return;
 		}
 		std::cout << "The pirate ship shoots back and hits you with " << pirateShip_->Shoot() << " damage.\n";
 		if (player_->Hit(pirateShip_->Shoot()))
 		{
-			std::cout << "The pirates defeated you, they laugh and sing while you and your crew sink to the bottom of the ocean!\n";
+			std::cout << "The pirates defeated you,\nthey laugh and sing while you and your crew sink to the bottom of the ocean!\n";
 			std::cout << "\nPress enter to continue.\n";
 			getchar();
 			state_ = gameOver;
+			delete pirateShip_;
+			pirateShip_ = nullptr;
 			return;
 		}
 		std::cout << "\nPress enter to continue.\n";
@@ -242,10 +295,12 @@ void Game::InBattle()
 		std::cout << "The pirate ship shoots as you attempt to flee, and hits you with " << pirateShip_->Shoot() << " damage.\n";
 		if (player_->Hit(pirateShip_->Shoot()))
 		{
-			std::cout << "The pirates defeated you, they laugh and sing while you and your crew sink to the bottom of the ocean!\n";
+			std::cout << "The pirates defeated you,\nthey laugh and sing while you and your crew sink to the bottom of the ocean!\n";
 			std::cout << "\nPress enter to continue.\n";
 			getchar();
 			state_ = gameOver;
+			delete pirateShip_;
+			pirateShip_ = nullptr;
 			return;
 		}
 		if (player_->Flee(pirateShip_))
@@ -254,6 +309,8 @@ void Game::InBattle()
 			std::cout << "\nPress enter to continue on your journey.\n";
 			getchar();
 			state_ = onSea;
+			delete pirateShip_;
+			pirateShip_ = nullptr;
 			return;
 		}
 		std::cout << "You were unable to outrun the pirate ship, and you remain in battle.\n";
@@ -262,10 +319,12 @@ void Game::InBattle()
 		break;
 	case 3:
 		std::cout << "You realize that fighting pirates is scary, and cowardly wave the white flag!\n";
-		std::cout << "While you sit in shame, the pirates help themselves to all your cargo, what they can't carry they throw overboard.\n";
+		std::cout << "While you sit in shame, the pirates help themselves to all your cargo,\nwhat they can't carry they throw overboard.\n";
 		std::cout << "\nPress enter to continue on your journey.\n";
 		getchar();
 		state_ = onSea;
+		delete pirateShip_;
+		pirateShip_ = nullptr;
 		break;
 	default:
 		break;
@@ -280,7 +339,7 @@ void Game::GameOver()
 	int score = player_->GetMoney();
 	std::cout << "With a fortune of " << score << " gold pieces, ";
 	if (score < 1000)
-		std::cout << "you were the worst trader in history, and your name will forever be synonymous with failure.\n";
+		std::cout << "you were the worst trader in history,\nand your name will forever be synonymous with failure.\n";
 	else if (score < 100000)
 		std::cout << "you were on your way to become a descent trader.\n";
 	else if (score < 500000)
@@ -308,7 +367,7 @@ void Game::Cheat()
 	system("cls");
 	std::cout << "You have found the answer to the Ultimate Question of Life, the Universe, and Everything!\n";
 	std::cout << "To continue your frivolous quest for fame and fortune seems pointless now.\n\n";
-	std::cout << "Therefore you are granted 1,000,000 gold pieces and win the game.";
+	std::cout << "Therefore you are granted 1,000,000 gold pieces and win the game.\n";
 	getchar();
 	player_->SetMoney(player_->GetMoney() + goal_);
 	state_ = gameWon;

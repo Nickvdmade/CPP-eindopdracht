@@ -42,85 +42,186 @@ void Player::Arrive(Ships* ships) const
 	}
 	ship_->ShowHitPoints();
 	inventory_->ShowInfo();
+	location_->Arrive(ships, destination_);
 }
 
 char* Player::BuyGoods() const
 {
 	location_->ShowAvailableGoods();
-	return "";
+	int choice = 0;
+	while (choice < 1 || choice > 15)
+	{
+		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
+		std::cin >> choice;
+		getchar();
+		if (choice == 99)
+			return "Action aborted.\n";
+	}
+	int amount = 0;
+	while (amount < 1 || amount > 1200)
+	{
+		std::cout << "\nInput amount to buy: ";
+		std::cin.clear();
+		std::cin >> amount;
+		getchar();		
+	}
+	switch(choice)
+	{
+	case bakstenen:
+		return BuyGoods("bakstenen", amount);
+	case laken:
+		return BuyGoods("laken", amount);
+	case katoen:
+		return BuyGoods("katoen", amount);
+	case verfstof:
+		return BuyGoods("verfstof", amount);
+	case vis:
+		return BuyGoods("vis", amount);
+	case hennep:
+		return BuyGoods("hennep", amount);
+	case aardappels:
+		return BuyGoods("aardappels", amount);
+	case rum:
+		return BuyGoods("rum", amount);
+	case zout:
+		return BuyGoods("zout", amount);
+	case suiker:
+		return BuyGoods("suiker", amount);
+	case tabak:
+		return BuyGoods("tabak", amount);
+	case graan:
+		return BuyGoods("graan", amount);
+	case vlees:
+		return BuyGoods("vlees", amount);
+	case hout:
+		return BuyGoods("hout", amount);
+	default:
+		return "Something went wrong";
+	}
 }
 
-char* Player::BuyGoods(char* name, int amount) const
+char* Player::SellGoods() const
 {
-	if (inventory_->IsLoadSpaceAvailable(amount))
+	inventory_->ShowGoods(location_);
+	int choice = 0;
+	while (choice < 1 || choice > 15)
 	{
-		int newMoney = location_->BuyGoods(name, amount, inventory_->GetMoney());
-		if (newMoney != -1)
-		{
-			inventory_->SetMoney(newMoney);
-			inventory_->AddGoods(name, amount);
-			return "succes";
-		}
-		return "Not enough money or buying too many goods";
+		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
+		std::cin >> choice;
+		getchar();
+		if (choice == 99)
+			return "Action aborted.\n";
 	}
-	return "Not enough load space on ship";
+	int amount = 0;
+	while (amount < 1 || amount > 1200)
+	{
+		std::cout << "\nInput amount to sell: ";
+		std::cin.clear();
+		std::cin >> amount;
+		getchar();
+	}
+	switch (choice)
+	{
+	case bakstenen:
+		return SellGoods("bakstenen", amount);
+	case laken:
+		return SellGoods("laken", amount);
+	case katoen:
+		return SellGoods("katoen", amount);
+	case verfstof:
+		return SellGoods("verfstof", amount);
+	case vis:
+		return SellGoods("vis", amount);
+	case hennep:
+		return SellGoods("hennep", amount);
+	case aardappels:
+		return SellGoods("aardappels", amount);
+	case rum:
+		return SellGoods("rum", amount);
+	case zout:
+		return SellGoods("zout", amount);
+	case suiker:
+		return SellGoods("suiker", amount);
+	case tabak:
+		return SellGoods("tabak", amount);
+	case graan:
+		return SellGoods("graan", amount);
+	case vlees:
+		return SellGoods("vlees", amount);
+	case hout:
+		return SellGoods("hout", amount);
+	default:
+		return "Something went wrong";
+	}
 }
 
-char* Player::SellGoods(char* name, int amount) const
+char* Player::BuyCannons() const
 {
-	if (inventory_->CanSellGoods(name, amount))
+	location_->ShowAvailableCannons();
+	int choice = 0;
+	while (choice < 1 || choice > 3)
 	{
-		inventory_->SetMoney(location_->SellGoods(name, amount, inventory_->GetMoney()));
-		inventory_->RemoveGoods(name, amount);
-		return "succes";
+		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
+		std::cin >> choice;
+		getchar();
+		if (choice == 99)
+			return "Action aborted.\n";
 	}
-	return "Not enough goods to sell";
+	int amount = 0;
+	while (amount < 1 || amount > 5)
+	{
+		std::cout << "\nInput amount to buy: ";
+		std::cin.clear();
+		std::cin >> amount;
+		getchar();
+	}
+	return BuyCannons(choice - 1, amount);
 }
 
-char* Player::BuyCannons(int type, int amount) const
+char* Player::SellCannons() const
 {
-	if (inventory_->IsCannonSpaceAvailable(amount))
+	inventory_->ShowCannons();
+	std::cout << "\nlight = 50 gold pieces\n";
+	std::cout << "medium = 200 gold pieces\n";
+	std::cout << "heavy = 1000 gold pieces\n";
+	int choice = 0;
+	while (choice < 1 || choice > 3)
 	{
-		int newMoney = location_->BuyCannons(type, amount, inventory_->GetMoney());
-		if (newMoney != -1)
-		{
-			inventory_->SetMoney(newMoney);
-			inventory_->AddCannons(type, amount);
-			return "succes";
-		}
-		return "Not enough money or buying too many cannons";
+		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
+		std::cin >> choice;
+		getchar();
+		if (choice == 99)
+			return "Action aborted.\n";
 	}
-	return "Not enough cannon space on ship";
+	int amount = 0;
+	while (amount < 1 || amount > 5)
+	{
+		std::cout << "\nInput amount to sell: ";
+		std::cin.clear();
+		std::cin >> amount;
+		getchar();
+	}
+	return SellCannons(choice - 1, amount);
 }
 
-char* Player::SellCannons(int type, int amount) const
+char* Player::BuyShip() const
 {
-	if (inventory_->CanSellCannons(type, amount))
+	location_->ShowAvailableShips();
+	int choice = 0;
+	while (choice < 1 || choice > 13)
 	{
-		inventory_->SetMoney(location_->SellCannons(type, amount, inventory_->GetMoney()));
-		inventory_->RemoveCannons(type, amount);
-		return "succes";
+		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
+		std::cin >> choice;
+		getchar();
+		if (choice == 99)
+			return "Action aborted.\n";
 	}
-	return "Not enough cannons to sell";
-}
-
-char* Player::BuyShip(int choice) const
-{
-	Ship* newShip = location_->PreviewShip(choice - 1);
-	if (newShip != nullptr)
-	{
-		if (inventory_->SufficientLoadSpace(newShip->GetLoadSpace()))
-		{
-			if (inventory_->SufficientCannonSpace(newShip->GetCannonAmount()))
-			{
-				inventory_->SetMoney(location_->BuyShip(ship_, newShip, inventory_->GetMoney()));
-				return "succes";
-			}
-			return "Not enough cannon space on new ship";
-		}
-		return "Not enough load space on new ship";
-	}
-	return "Unknown ship name";
+	return BuyShip(choice);
 }
 
 void Player::ShowAvailableShips() const
@@ -138,16 +239,79 @@ void Player::ShowLocations() const
 	location_->ShowLocations();
 }
 
-char* Player::Depart(char* destination)
+void Player::ShowShipInfo() const
 {
-	int distance = location_->GetDistance(destination);
-	if (distance != -1)
+	ship_->ShowInfo();
+	inventory_->ShowInventory();
+	inventory_->ShowCannons();
+}
+
+char* Player::Depart()
+{
+	location_->ShowLocations();
+	int choice = 0;
+	while (choice < 1 || choice > 24 || choice == location_->GetLocation(destination_) + 1)
 	{
-		destination_ = destination;
-		distance_ = distance;
-		return "succes";
+		std::cout << "\nInput a valid number: ";
+		std::cin.clear();
+		std::cin >> choice;
+		getchar();
+		if (choice == 99)
+			return "Action aborted.\n";
 	}
-	return "Unknown destination";
+	switch (choice)
+	{
+	case roatan:
+		return Depart("Roatan");
+	case belize:
+		return Depart("Belize");
+	case cayman:
+		return Depart("Cayman");
+	case evangelista:
+		return Depart("Evangelista");
+	case trinidad:
+		return Depart("Trinidad");
+	case portRoyale:
+		return Depart("Port Royale");
+	case santiago:
+		return Depart("Santiago");
+	case portAuPrince:
+		return Depart("Port-au-prince");
+	case santoDomingo:
+		return Depart("Santo Domingo");
+	case saintKitts:
+		return Depart("Saint Kitts");
+	case santaLucia:
+		return Depart("Santa Lucia");
+	case grenada:
+		return Depart("Grenada");
+	case portOfSpain:
+		return Depart("Port of Spain");
+	case puertoSanto:
+		return Depart("Puerto Santo");
+	case margarita:
+		return Depart("Margarita");
+	case caracas:
+		return Depart("Caracas");
+	case puertoCabello:
+		return Depart("Puerto Cabello");
+	case curacao:
+		return Depart("Curacao");
+	case coro:
+		return Depart("Coro");
+	case gibraltar:
+		return Depart("Gibraltar");
+	case maracaibo:
+		return Depart("Maracaibo");
+	case santaMarta:
+		return Depart("Santa Marta");
+	case cartagena:
+		return Depart("Cartagena");
+	case providence:
+		return Depart("Providence");
+	default:
+		return "Something went wrong.";
+	}
 }
 
 int Player::Repair() const
@@ -324,4 +488,90 @@ char* Player::Sail()
 	if (distance_ <= 0)
 		message = "Arrived";
 	return message;
+}
+
+char* Player::BuyGoods(char* name, int amount) const
+{
+	if (inventory_->IsLoadSpaceAvailable(amount))
+	{
+		int newMoney = location_->BuyGoods(name, amount, inventory_->GetMoney());
+		if (newMoney != -1)
+		{
+			inventory_->SetMoney(newMoney);
+			inventory_->AddGoods(name, amount);
+			return "succes";
+		}
+		return "Not enough money or buying too many goods";
+	}
+	return "Not enough load space on ship";
+}
+
+char* Player::SellGoods(char* name, int amount) const
+{
+	if (inventory_->CanSellGoods(name, amount))
+	{
+		inventory_->SetMoney(location_->SellGoods(name, amount, inventory_->GetMoney()));
+		inventory_->RemoveGoods(name, amount);
+		return "succes";
+	}
+	return "Not enough goods to sell";
+}
+
+char* Player::BuyCannons(int type, int amount) const
+{
+	if (inventory_->IsCannonSpaceAvailable(amount))
+	{
+		int newMoney = location_->BuyCannons(type, amount, inventory_->GetMoney());
+		if (newMoney != -1)
+		{
+			inventory_->SetMoney(newMoney);
+			inventory_->AddCannons(type, amount);
+			return "succes";
+		}
+		return "Not enough money or buying too many cannons";
+	}
+	return "Not enough cannon space on ship";
+}
+
+char* Player::SellCannons(int type, int amount) const
+{
+	if (inventory_->CanSellCannons(type, amount))
+	{
+		inventory_->SetMoney(location_->SellCannons(type, amount, inventory_->GetMoney()));
+		inventory_->RemoveCannons(type, amount);
+		return "succes";
+	}
+	return "Not enough cannons to sell";
+}
+
+char* Player::BuyShip(int choice) const
+{
+	Ship* newShip = location_->PreviewShip(choice - 1);
+	if (newShip != nullptr)
+	{
+		if (inventory_->SufficientLoadSpace(newShip->GetLoadSpace()))
+		{
+			if (inventory_->SufficientCannonSpace(newShip->GetCannonAmount()))
+			{
+				inventory_->SetMoney(location_->BuyShip(ship_, newShip, inventory_->GetMoney()));
+				inventory_->NewShip(ship_);
+				return "succes";
+			}
+			return "Not enough cannon space on new ship";
+		}
+		return "Not enough load space on new ship";
+	}
+	return "Unknown ship name";
+}
+
+char* Player::Depart(char* destination)
+{
+	int distance = location_->GetDistance(destination);
+	if (distance != -1)
+	{
+		destination_ = destination;
+		distance_ = distance;
+		return "succes";
+	}
+	return "Unknown destination";
 }

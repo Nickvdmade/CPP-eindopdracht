@@ -9,6 +9,7 @@ public:
 	Goods& operator=(const Goods& other);
 
 	char* GetName() const;
+	int GetPrice() const;
 	int Buy(int amount, int money);
 	int Sell(int amount, int money);
 

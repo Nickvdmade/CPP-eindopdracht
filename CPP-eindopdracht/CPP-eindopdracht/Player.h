@@ -15,15 +15,15 @@ public:
 	// in Port
 	void Arrive(Ships* ships) const;
 	char* BuyGoods() const;
-	char* BuyGoods(char* name, int amount) const;
-	char* SellGoods(char* name, int amount) const;
-	char* BuyCannons(int type, int amount) const;
-	char* SellCannons(int type, int amount) const;
-	char* BuyShip(int choice) const;
+	char* SellGoods() const;
+	char* BuyCannons() const;
+	char* SellCannons() const;
+	char* BuyShip() const;
 	void ShowAvailableShips() const;
 	void ShowAvailableCannons() const;
 	void ShowLocations() const;
-	char* Depart(char* destination);
+	void ShowShipInfo() const;
+	char* Depart();
 	int Repair() const;
 	int GetPiratesDefeated(); 
 	int GetMoney() const;
@@ -44,10 +44,65 @@ public:
 	char* Sail();
 
 private:
+	char* BuyGoods(char* name, int amount) const;
+	char* SellGoods(char* name, int amount) const;
+	char* BuyCannons(int type, int amount) const;
+	char* SellCannons(int type, int amount) const;
+	char* BuyShip(int choice) const;
+	char* Depart(char* destination);
+
 	char* destination_;
+	int currentLocation_;
 	int distance_;
 	int piratesDefeated_;
 	Location* location_;
 	Ship* ship_;
 	Inventory* inventory_;
+
+	enum goods
+	{
+		bakstenen = 1,
+		laken,
+		cacao,
+		katoen,
+		verfstof,
+		vis,
+		hennep,
+		aardappels,
+		rum,
+		zout,
+		suiker,
+		tabak,
+		graan,
+		vlees,
+		hout
+	};
+
+	enum ports
+	{
+		roatan = 1,
+		belize,
+		cayman,
+		evangelista,
+		trinidad,
+		portRoyale,
+		santiago,
+		portAuPrince,
+		santoDomingo,
+		saintKitts,
+		santaLucia,
+		grenada,
+		portOfSpain,
+		puertoSanto,
+		margarita,
+		caracas,
+		puertoCabello,
+		curacao,
+		coro,
+		gibraltar,
+		maracaibo,
+		santaMarta,
+		cartagena,
+		providence
+	};
 };
