@@ -42,6 +42,8 @@ public:
 
 	//on Sea
 	char* Sail();
+	bool HasArrived() const;
+	int GetDistance() const;
 
 private:
 	char* BuyGoods(char* name, int amount) const;
@@ -52,10 +54,10 @@ private:
 	char* Depart(char* destination);
 
 	char* destination_;
-	int currentLocation_;
 	int distance_;
 	int piratesDefeated_;
 	Location* location_;
+	int currentLocation_;
 	Ship* ship_;
 	Inventory* inventory_;
 

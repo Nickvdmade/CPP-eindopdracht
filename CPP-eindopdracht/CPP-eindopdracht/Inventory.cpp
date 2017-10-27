@@ -1,10 +1,11 @@
 #include "Inventory.h"
 #include <cstring>
 #include <iostream>
+#include "RandomGenerator.h"
 
 Inventory::Inventory(Ship* ship, Location* location)
 {
-	money_ = 1000;
+	money_ = 10000;
 	maxLoadSpace_ = ship->GetLoadSpace();
 	usedLoadSpace_ = 0;
 	maxCannons_ = ship->GetCannonAmount();
@@ -15,7 +16,7 @@ Inventory::Inventory(Ship* ship, Location* location)
 		cannons_[i] = 0;
 	for (int i = 2; i < 4; i++)
 		cannons_[i] = 1;
-	for (int i = 4; i < 6; i++)
+	for (int i = 4; i < 50; i++)
 		cannons_[i] = 2;
 	goodsNames_ = new char*[15];
 	goodsAmount_ = new int[15];
@@ -214,8 +215,9 @@ void Inventory::ShowGoods(Location* location) const
 int Inventory::Shoot() const
 {
 	int damage = 0;
+	RandomGenerator random;
 	for (int i = 0; i < maxCannons_; i++)
-		damage += (cannons_[i] + 1) * 2;
+		damage += random.GetRandomNumber(0, (cannons_[i] + 1) * 2);
 	return damage;
 }
 

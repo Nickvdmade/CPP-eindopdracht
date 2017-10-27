@@ -115,8 +115,12 @@ int Location::GetDistance(char* destination) const
 	for (int i = 0; i < 24; i++)
 	{
 		if (strcmp(portNames[i], destination) == 0)
+		{
+			delete portNames;
 			return distance[i];
+		}
 	}
+	delete portNames;
 	return -1;
 }
 

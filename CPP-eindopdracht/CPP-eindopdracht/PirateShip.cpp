@@ -53,8 +53,9 @@ bool PirateShip::Hit(int damage)
 int PirateShip::Shoot() const
 {
 	int damage = 0;
+	RandomGenerator random;
 	for (int i = 0; i < cannonAmount_; i++)
-		damage += (cannons_[i] + 1) * 2;
+		damage += random.GetRandomNumber(0, (cannons_[i] + 1) * 2);
 	return damage;
 }
 
@@ -70,7 +71,7 @@ int PirateShip::GetWeight() const
 
 void PirateShip::ShowCannons() const
 {
-	std::cout << "\tInstalled cannons:\n";
+	std::cout << "Installed cannons:\n";
 	int light = 0;
 	int medium = 0;
 	int heavy = 0;
@@ -83,9 +84,9 @@ void PirateShip::ShowCannons() const
 		if (cannons_[i] == 2)
 			heavy++;
 	}
-	std::cout << "\t\tLight cannons:\t" << light << std::endl;
-	std::cout << "\t\tMedium cannons:\t" << medium << std::endl;
-	std::cout << "\t\tHeavy cannons:\t" << heavy << std::endl;
+	std::cout << "\tLight cannons:\t" << light << std::endl;
+	std::cout << "\tMedium cannons:\t" << medium << std::endl;
+	std::cout << "\tHeavy cannons:\t" << heavy << std::endl;
 }
 
 void PirateShip::ShowHitPoints() const

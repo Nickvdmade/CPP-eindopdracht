@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <cstring>
 #include <iostream>
 #include "RandomGenerator.h"
 #include <string>
@@ -9,8 +8,9 @@ Player::Player(Ship* ship, Location* location)
 	destination_ = location->GetName();
 	distance_ = 0;
 	location_ = location;
+	currentLocation_ = 0;
 	ship_ = new Ship(*ship);
-	inventory_  = new Inventory(ship_, location_);
+	inventory_ = new Inventory(ship_, location_);
 	piratesDefeated_ = 0;
 }
 
@@ -37,8 +37,8 @@ void Player::Arrive(Ships* ships) const
 	if (piratesDefeated_ > 0)
 	{
 		std::cout << "You defeated " << piratesDefeated_ << " pirates, well done.\n";
-		inventory_->SetMoney(inventory_->GetMoney() + piratesDefeated_ * 1000);
-		std::cout << "You received a bounty of " << piratesDefeated_ * 1000 << ".\n\n";
+		inventory_->SetMoney(inventory_->GetMoney() + piratesDefeated_ * 10000);
+		std::cout << "You received a bounty of " << piratesDefeated_ * 10000 << " gold pieces.\n\n";
 	}
 	ship_->ShowHitPoints();
 	inventory_->ShowInfo();
@@ -434,11 +434,11 @@ char* Player::Sail()
 		return "Pirates";
 	int wind = random.GetRandomNumber(1, 20);
 	if (wind <= 2)
-		message = "No wind, no movement";
+		message = "No wind, no movement\t\t\t";
 	else if (wind <= 4)
 	{
 		if (ship_->GetWeight() != 0)
-			message = "Slight breeze, no movement";
+			message = "Slight breeze, no movement\t\t";
 		else
 		{
 			distance_--;
@@ -453,7 +453,7 @@ char* Player::Sail()
 			message = "Weak wind, one mile closer to destination";
 		}
 		else
-			message = "Weak wind, no movement";
+			message = "Weak wind, no movement\t\t\t";
 	}
 	else if (wind <= 17)
 	{
@@ -470,7 +470,6 @@ char* Player::Sail()
 		int damage = random.GetRandomNumber(1, 100);
 		if (ship_->HitPercentage(damage))
 			return "Storm, ship sunk";
-		int hitPoints = ship_->GetHitPoints();
 		int direction = random.GetRandomNumber(1, 5);
 		if (direction <= 2)
 		{
@@ -485,9 +484,21 @@ char* Player::Sail()
 			message = "Storm, one mile closer to destination, damage taken";
 		}
 	}
-	if (distance_ <= 0)
-		message = "Arrived";
 	return message;
+}
+
+bool Player::HasArrived() const
+{
+	if (distance_ <= 0)
+		return true;
+	return false;
+}
+
+int Player::GetDistance() const
+{
+	if (distance_ < 0)
+		return 0;
+	return distance_;
 }
 
 char* Player::BuyGoods(char* name, int amount) const

@@ -6,7 +6,7 @@ Game::Game()
 	ships_ = new Ships();
 	ports_ = new Ports();
 	startLocation_ = new Location(ports_, ships_, "Roatan");
-	player_ = new Player(ships_->GetShip(0), startLocation_);
+	player_ = new Player(ships_->GetShip(12), startLocation_);
 	state_ = 0;
 	goal_ = 1000000;
 	inBattle_ = false;
@@ -187,7 +187,7 @@ void Game::OnSea()
 	system("cls");
 	std::cout << "While traversing the open sea...\n\n";
 	char* message = player_->Sail();
-	while (strcmp(message, "Arrived") != 0)
+	while (!player_->HasArrived())
 	{
 		if (strcmp(message, "Pirates") == 0)
 		{
@@ -203,10 +203,12 @@ void Game::OnSea()
 			state_ = gameOver;
 			return;
 		}
-		std::cout << message;
+		std::cout << message << "\t\t" << player_->GetDistance() << " miles to go.";
 		message = player_->Sail();
 		getchar();
 	}
+	std::cout << message << "\t\t" << player_->GetDistance() << " miles to go.";
+	getchar();
 	std::cout << "\nLand ho!\n";
 	player_->Arrive(ships_);
 	if (player_->GetMoney() >= goal_)
@@ -274,6 +276,7 @@ void Game::InBattle()
 			state_ = onSea;
 			delete pirateShip_;
 			pirateShip_ = nullptr;
+			player_->PirateDefeated();
 			return;
 		}
 		std::cout << "The pirate ship shoots back and hits you with " << pirateShip_->Shoot() << " damage.\n";
