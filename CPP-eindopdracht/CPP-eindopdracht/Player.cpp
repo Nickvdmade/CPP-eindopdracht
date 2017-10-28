@@ -441,15 +441,15 @@ char* Player::Sail()
 		return "Pirates";
 	int wind = random.GetRandomNumber(1, 20);
 	if (wind <= 2)
-		message = "No wind, no movement\t\t\t";
+		message = "No wind, no movement\t\t\t\t";
 	else if (wind <= 4)
 	{
 		if (ship_->GetWeight() != 0)
-			message = "Slight breeze, no movement\t\t";
+			message = "Slight breeze, no movement\t\t\t";
 		else
 		{
 			distance_--;
-			message = "Slight breeze, one mile closer to destination";
+			message = "Slight breeze, one mile closer to destination\t";
 		}
 	}
 	else if (wind <= 7)
@@ -457,20 +457,20 @@ char* Player::Sail()
 		if (ship_->GetWeight() != 2)
 		{
 			distance_--;
-			message = "Weak wind, one mile closer to destination";
+			message = "Weak wind, one mile closer to destination\t";
 		}
 		else
-			message = "Weak wind, no movement\t\t\t";
+			message = "Weak wind, no movement\t\t\t\t";
 	}
 	else if (wind <= 17)
 	{
 		distance_--;
-		message = "Normal wind, one mile closer to destination";
+		message = "Normal wind, one mile closer to destination\t";
 	}
 	else if (wind <= 19)
 	{
 		distance_ -= 2;
-		message = "Heavy wind, two miles closer to destination";
+		message = "Heavy wind, two miles closer to destination\t";
 	}
 	else
 	{
@@ -484,11 +484,11 @@ char* Player::Sail()
 			message = "Storm, one mile further from destination, damage taken";
 		}
 		else if (direction <= 4)
-			message = "Storm, no movement, damage taken\t";
+			message = "Storm, no movement, damage taken\t\t";
 		else
 		{
 			distance_--;
-			message = "Storm, one mile closer to destination, damage taken";
+			message = "Storm, one mile closer to destination, damage taken\t";
 		}
 	}
 	return message;

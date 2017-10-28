@@ -1,18 +1,6 @@
 #include "Ship.h"
 #include <iostream>
 
-Ship::Ship(Ship& other)
-{
-	type_ = other.type_;
-	price_ = other.price_;
-	loadSpace_ = other.loadSpace_;
-	cannons_ = other.cannons_;
-	maxHitPoints_ = other.maxHitPoints_;
-	hitPoints_ = other.hitPoints_;
-	small_ = other.small_;
-	weight_ = other.weight_;
-}
-
 Ship::Ship(char* type, int price, int loadSpace, int cannons, int hitPoints, bool small, int weight)
 {
 	type_ = type;
@@ -23,6 +11,18 @@ Ship::Ship(char* type, int price, int loadSpace, int cannons, int hitPoints, boo
 	hitPoints_ = hitPoints;
 	small_ = small;
 	weight_ = weight;
+}
+
+Ship::Ship(Ship& other)
+{
+	type_ = other.type_;
+	price_ = other.price_;
+	loadSpace_ = other.loadSpace_;
+	cannons_ = other.cannons_;
+	maxHitPoints_ = other.maxHitPoints_;
+	hitPoints_ = other.hitPoints_;
+	small_ = other.small_;
+	weight_ = other.weight_;
 }
 
 Ship::~Ship()

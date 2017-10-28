@@ -210,6 +210,7 @@ void Inventory::ShowGoods(Location* location) const
 		std::cout << goodsPrice[i] << "\t";
 		std::cout << goodsAmount_[i] << std::endl;
 	}
+	delete goodsPrice;
 }
 
 void Inventory::ShowLoadSpace() const
